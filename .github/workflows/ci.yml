@@ -39,6 +39,14 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
 
+    # Start Laravel built-in server in the background
+    - name: Start Laravel server
+      run: php artisan serve --host=127.0.0.1 --port=8000 &
+      env:
+        APP_ENV: testing
+        DB_CONNECTION: sqlite
+        DB_DATABASE: :memory:
+
     # Run phplint
     - name: Run PHPLint
       run: composer phplint
