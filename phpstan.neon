@@ -1,0 +1,7 @@
+parameters:
+    level: 6 # De `0` a `8`  https://phpstan.org/user-guide/rule-levels
+    paths:
+        - app
+        - config
+    bootstrapFiles:
+        - %rootDir%/../../../vendor/autoload.php
