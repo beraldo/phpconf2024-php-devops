@@ -1,0 +1,60 @@
+name: Laravel CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run Laravel Static Analysis and Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Set up PHP with required extensions
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2' # Adjust PHP version as needed
+        extensions: mbstring, xml, ctype, fileinfo
+        ini-values: post_max_size=256M, upload_max_filesize=256M
+        tools: composer
+
+    # Cache dependencies
+    - name: Cache Composer dependencies
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+
+    # Install dependencies
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    # Run phplint
+    - name: Run PHPLint
+      run: composer phplint
+
+    # Run PHP_CodeSniffer
+    - name: Run PHPCS
+      run: composer phpcs
+
+    # Run PHPStan
+    - name: Run PHPStan
+      run: composer phpstan
+
+    # Run Psalm
+    - name: Run Psalm
+      run: composer psalm
+
+    # Run Pest tests
+    - name: Run Pest Tests
+      run: composer pest
