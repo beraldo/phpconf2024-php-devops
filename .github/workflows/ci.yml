@@ -39,6 +39,12 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
 
+    # Prepare application
+    - name: Install dependencies
+      run: |
+        cp .env.example .env
+        php artisan key:generate
+
     # Run phplint
     - name: Run PHPLint
       run: composer phplint
