@@ -1,12 +1,12 @@
-name: Laravel CI
+name: PHPConf 2024
 
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   test:
