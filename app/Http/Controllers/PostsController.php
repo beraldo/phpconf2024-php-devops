@@ -50,7 +50,7 @@ class PostsController extends Controller
             return response()->json([
                 'success' => true,
                 'data' => $jsonResponse,
-            ]);
+            ], 201);
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
